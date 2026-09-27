@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{{ page.title }} — Aichik</title>
+  <title>{{ page.title }} — Aida Aichik</title>
   <meta name="description" content="{{ page.title }}{% if page.medium %}, {{ page.medium }}{% endif %}{% if page.year %}, {{ page.year }}{% endif %}. Original artwork by Aichik." />
-  <meta property="og:title" content="{{ page.title }} — Aichik" />
+  <meta property="og:title" content="{{ page.title }} — Aida Aichik" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
   <meta property="og:image" content="{{ site.url }}{{ page.image }}" />
@@ -17,21 +17,21 @@
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <header class="header"><div class="wrap header__inner">
-    <a class="brand" href="/"><span class="brand__name">Aichik</span><span class="brand__tag">Paintings</span></a>
+    <a class="brand" href="/"><span class="brand__name">Aida Aichik</span><span class="brand__tag">Paintings</span></a>
     <nav class="nav" aria-label="Primary"><a href="/works.html" aria-current="page">Works</a><a href="/about.html">About</a><a class="nav__cta" href="/inquiries.html">Inquiries</a></nav>
   </div></header>
   <main id="main">
     <section class="section artwork-page"><div class="wrap">
       <a class="back-link" href="/{% if page.series == 'fragile-futures' %}fragile-futures.html{% else %}living-the-fantasy.html{% endif %}">← Back to series</a>
       <div class="artwork-detail">
-        <div class="artwork-detail__image"><img src="{{ page.image }}" alt="{{ page.title }} by Aichik" /></div>
+        <div class="artwork-detail__image"><img src="{{ page.image }}" alt="{{ page.title }} by Aida Aichik" /></div>
         <div class="artwork-detail__info">
           <p class="kicker">Original artwork</p><h1>{{ page.title }}</h1>
           <div class="artwork-facts">
-            {% if page.year %}<p><span>Year</span>{{ page.year }}</p>{% endif %}
-            {% if page.medium %}<p><span>Medium</span>{{ page.medium }}</p>{% endif %}
-            {% if page.dimensions and page.dimensions != '' %}<p><span>Dimensions</span>{{ page.dimensions }}</p>{% endif %}
-            {% if page.location %}<p><span>Location</span>{{ page.location }}</p>{% endif %}
+            {% if page.year %}<p><span>Year: </span>{{ page.year }}</p>{% endif %}
+            {% if page.medium %}<p><span>Medium: </span>{{ page.medium }}</p>{% endif %}
+            {% if page.dimensions and page.dimensions != '' %}<p><span>Dimensions: </span>{{ page.dimensions }}</p>{% endif %}
+            {% if page.location %}<p><span>Location: </span>{{ page.location }}</p>{% endif %}
           </div>
           <div class="artwork-description">{{ content | markdownify }}</div>
           <div class="availability">
