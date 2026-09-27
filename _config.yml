@@ -1,0 +1,15 @@
+title: Aichik
+url: "https://aichik.com"
+collections:
+  artworks:
+    output: true
+    permalink: /art/:name/
+defaults:
+  - scope:
+      path: ""
+      type: artworks
+    values:
+      layout: artwork
+exclude:
+  - README.md
+  - "Folder Structure.txt"

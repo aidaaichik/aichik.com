@@ -1,0 +1,23 @@
+AICHIK.COM — GITHUB UPDATE ONLY
+
+This package intentionally contains NO artwork images. Your existing GitHub repository already has them.
+
+Upload/replace these items in the ROOT of your existing aichik.com repository:
+
+  _config.yml
+  admin.html
+  living-the-fantasy.html
+  fragile-futures.html
+  _artworks/        (entire folder)
+  _layouts/         (entire folder)
+
+IMPORTANT: Keep the folder names and structure exactly as shown.
+Do NOT delete your existing assets/ folder or other HTML/CSS/JS files.
+
+After committing, GitHub Pages/Jekyll should build the individual artwork URLs such as:
+  /art/eve/
+
+The admin form will be at:
+  /admin.html
+
+Existing artwork images remain in your existing assets folders and are referenced by the new artwork records.
