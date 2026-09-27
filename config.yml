@@ -1,0 +1,66 @@
+backend:
+  name: github
+  repo: aidaaichik/aichik.com
+  branch: main
+  site_domain: aichik.com
+
+media_folder: "assets/artworks"
+public_folder: "/assets/artworks"
+
+publish_mode: simple
+
+collections:
+  - name: "artworks"
+    label: "Artworks"
+    label_singular: "Artwork"
+    folder: "_artworks"
+    create: true
+    delete: true
+    extension: "md"
+    format: "frontmatter"
+    slug: "{{slug}}"
+    summary: "{{title}} — {{year}} — {{status}}"
+    sortable_fields: ["title", "year", "status", "series"]
+    view_filters:
+      - label: "Available"
+        field: status
+        pattern: "available"
+      - label: "Sold"
+        field: status
+        pattern: "sold"
+      - label: "Living the Fantasy"
+        field: series
+        pattern: "living-the-fantasy"
+      - label: "Fragile Futures"
+        field: series
+        pattern: "fragile-futures"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - label: "Series"
+        name: "series"
+        widget: "select"
+        options:
+          - { label: "Living the Fantasy", value: "living-the-fantasy" }
+          - { label: "Fragile Futures", value: "fragile-futures" }
+      - { label: "Year", name: "year", widget: "number", value_type: "int", min: 2000, max: 2100 }
+      - { label: "Medium", name: "medium", widget: "string" }
+      - { label: "Dimensions", name: "dimensions", widget: "string", required: false, hint: "Example: 50 × 65 cm" }
+      - { label: "Location", name: "location", widget: "string", default: "Singapore", required: false }
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        default: "available"
+        options:
+          - { label: "Available", value: "available" }
+          - { label: "Availability on request", value: "inquire" }
+          - { label: "Sold", value: "sold" }
+          - { label: "Not for sale", value: "not-for-sale" }
+      - { label: "Price", name: "price", widget: "string", required: false, hint: "Leave blank if you don't want a public price." }
+      - label: "Currency"
+        name: "currency"
+        widget: "select"
+        default: "SGD"
+        options: ["SGD", "USD", "EUR", "GBP"]
+      - { label: "Artwork image", name: "image", widget: "image", choose_url: false, media_library: { config: { multiple: false } } }
+      - { label: "Display order", name: "order", widget: "number", value_type: "int", default: 10, min: 0, required: false, hint: "Lower numbers appear first." }
+      - { label: "Description / story", name: "body", widget: "markdown", required: false }

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ page.title }} — Aichik</title>
+  <meta name="description" content="{{ page.title }}{% if page.medium %}, {{ page.medium }}{% endif %}{% if page.year %}, {{ page.year }}{% endif %}. Original artwork by Aichik." />
+  <meta property="og:title" content="{{ page.title }} — Aichik" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
+  <meta property="og:image" content="{{ site.url }}{{ page.image }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300,400,600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="header"><div class="wrap header__inner">
+    <a class="brand" href="/"><span class="brand__name">Aichik</span><span class="brand__tag">Paintings</span></a>
+    <nav class="nav" aria-label="Primary"><a href="/works.html" aria-current="page">Works</a><a href="/about.html">About</a><a class="nav__cta" href="/inquiries.html">Inquiries</a></nav>
+  </div></header>
+  <main id="main">
+    <section class="section artwork-page"><div class="wrap">
+      <a class="back-link" href="/{% if page.series == 'fragile-futures' %}fragile-futures.html{% else %}living-the-fantasy.html{% endif %}">← Back to series</a>
+      <div class="artwork-detail">
+        <div class="artwork-detail__image"><img src="{{ page.image }}" alt="{{ page.title }} by Aichik" /></div>
+        <div class="artwork-detail__info">
+          <p class="kicker">Original artwork</p><h1>{{ page.title }}</h1>
+          <div class="artwork-facts">
+            {% if page.year %}<p><span>Year:</span> {{ page.year }}</p>{% endif %}
+            {% if page.medium %}<p><span>Medium:</span> {{ page.medium }}</p>{% endif %}
+            {% if page.dimensions and page.dimensions != '' %}<p><span>Dimensions:</span> {{ page.dimensions }}</p>{% endif %}
+            {% if page.location %}<p><span>Location:</span> {{ page.location }}</p>{% endif %}
+          </div>
+          <div class="artwork-description">{{ content | markdownify }}</div>
+          <div class="availability">
+            {% if page.status == 'sold' %}<strong>Sold</strong>
+            {% elsif page.status == 'not-for-sale' %}<strong>Not for sale</strong>
+            {% elsif page.status == 'available' %}<strong>Available</strong>{% if page.price and page.price != '' %}<span>{{ page.currency }} {{ page.price }}</span>{% endif %}
+            {% else %}<strong>Availability on request</strong>{% endif %}
+          </div>
+          <div class="actions"><a class="btn btn--accent" href="/inquiries.html?artwork={{ page.slug | url_encode }}">Inquire about this work</a><button class="btn" id="copyLink" type="button">Copy link</button></div>
+          <div class="qr-panel"><div id="qrcode" aria-label="QR code for this artwork"></div><div><strong>Exhibition QR</strong><p class="muted small">This QR always points to this artwork's permanent page.</p><button class="btn btn--small" id="downloadQr" type="button">Download QR</button></div></div>
+        </div>
+      </div>
+    </div></section>
+    <footer class="footer"><div class="wrap footer__inner"><p class="muted small">© <span id="year"></span> Aichik. All rights reserved.</p><div><a href="/works.html">Works</a> &nbsp;·&nbsp; <a href="/inquiries.html">Inquiries</a> &nbsp;·&nbsp; <a href="https://instagram.com/a.aichik.art" target="_blank" rel="noreferrer">Instagram</a></div></div></footer>
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="/script.js"></script>
+  <script>
+    const permanentUrl = '{{ site.url }}{{ page.url }}';
+    if (window.QRCode) new QRCode(document.getElementById('qrcode'), {text: permanentUrl, width: 160, height: 160, correctLevel: QRCode.CorrectLevel.H});
+    document.getElementById('copyLink')?.addEventListener('click', async (e) => { await navigator.clipboard.writeText(permanentUrl); e.currentTarget.textContent='Copied'; });
+    document.getElementById('downloadQr')?.addEventListener('click', () => { const img=document.querySelector('#qrcode img'); const canvas=document.querySelector('#qrcode canvas'); const href=img?.src || canvas?.toDataURL('image/png'); if(!href)return; const a=document.createElement('a'); a.href=href; a.download='{{ page.slug }}-qr.png'; a.click(); });
+  </script>
+</body>
+</html>
