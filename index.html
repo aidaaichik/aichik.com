@@ -1,11 +1,45 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Aichik — Artwork Admin</title>
-</head>
-<body>
-  <script src="https://unpkg.com/decap-cms@^3.8.0/dist/decap-cms.js"></script>
-</body>
-</html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aichik — Artwork Admin</title>
+<style>
+body{font-family:Arial,sans-serif;max-width:720px;margin:30px auto;padding:0 18px;color:#171717}
+h1{font-weight:500} label{display:block;margin:16px 0 6px}
+input,select,textarea,button{box-sizing:border-box;width:100%;font:inherit;padding:12px;border:1px solid #bbb;border-radius:6px}
+textarea{min-height:130px} button{margin-top:22px;background:#111;color:#fff;border:0}
+#msg{margin-top:18px;white-space:pre-wrap}.hint{font-size:13px;color:#666}
+</style></head><body>
+<h1>New artwork</h1>
+<p class="hint">Publish directly from your phone. GitHub and Netlify update automatically.</p>
+<form id="f">
+<label>Admin password</label><input name="password" type="password" autocomplete="current-password" required>
+<label>Artwork image</label><input name="image" type="file" accept="image/jpeg,image/png,image/webp" required>
+<label>Title</label><input name="title" required>
+<label>Series</label><select name="series"><option value="living-the-fantasy">Living the Fantasy</option><option value="fragile-futures">Fragile Futures</option></select>
+<label>Year</label><input name="year" inputmode="numeric">
+<label>Medium</label><input name="medium">
+<label>Dimensions</label><input name="dimensions" placeholder="50 × 65 cm">
+<label>Location</label><input name="location" value="Singapore">
+<label>Price (optional)</label><input name="price" inputmode="decimal">
+<label>Currency</label><input name="currency" value="SGD">
+<label>Status</label><select name="status"><option>Available</option><option>Sold</option><option>Not for sale</option><option>Private collection</option><option>Availability on request</option></select>
+<label>Description</label><textarea name="description"></textarea>
+<button type="submit">Publish artwork</button>
+</form><div id="msg"></div>
+<script>
+const f=document.getElementById('f'), msg=document.getElementById('msg');
+f.onsubmit=async(e)=>{
+ e.preventDefault(); msg.textContent='Publishing…';
+ const fd=new FormData(f), file=fd.get('image');
+ if(file.size>8*1024*1024){msg.textContent='Please use an image under 8 MB.';return}
+ const b64=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file)});
+ const body=Object.fromEntries([...fd.entries()].filter(([k])=>k!=='image'));
+ body.imageName=file.name; body.imageBase64=b64;
+ const r=await fetch('/.netlify/functions/publish-artwork',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});
+ const out=await r.json().catch(()=>({error:'Unexpected server response'}));
+ if(!r.ok){msg.textContent='Could not publish: '+(out.error||r.statusText);return}
+ msg.innerHTML='Published ✓<br><a href="'+out.url+'">View artwork</a><br><span class="hint">Netlify may take a minute or two to deploy.</span>';
+ f.reset();
+};
+</script></body></html>
